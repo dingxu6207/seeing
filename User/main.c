@@ -23,18 +23,26 @@
 #include "bsp_adc.h"
 #include "bsp_ds18b20.h"
 #include "bsp_TiMbase.h"
+#include <string.h>
+#include <math.h>
 
 extern __IO uint16_t ADC_ConvertedValue;
 
 extern uint32_t time;
 // 局部变量，保存ADC的值
-float ADC_ConvertedValueLocal;   
+float ADC_ConvertedValueLocal;  
+double temp[500] = {0};
 
 /**
   * @brief  主函数
   * @param  无
   * @retval 无
   */
+
+
+int adctimes = 0;	
+double deltADC = 0;
+double sum = 0;
 
 int main(void)
 {	
@@ -68,11 +76,25 @@ int main(void)
 			printf("temperature = %f ℃\r\n",DS18B20_Get_Temp());
 					
 			OpenADC();
-			ADC_ConvertedValueLocal =(float) ADC_ConvertedValue/4096*3.3;
-			printf("AD value = %f V\r\n",ADC_ConvertedValueLocal);
-		
-		 Delay_ms(1000);
+		  for (adctimes = 0;adctimes <500; adctimes++)
+		 {
+			  ADC_ConvertedValueLocal =(float) ADC_ConvertedValue/4096*3.3;
+		    temp[adctimes] = ADC_ConvertedValueLocal*ADC_ConvertedValueLocal*ADC_ConvertedValueLocal*ADC_ConvertedValueLocal;
+				Delay_ms(10);
+		 }
 		 
+		 for (adctimes = 0;adctimes <500; adctimes++)
+		 {
+		    sum = sum + temp[adctimes];
+		 }
+		 
+		  deltADC = sqrt(sum/500);
+		 
+			printf("deltADC = %f V\r\n",deltADC);
+		  printf("ADC_ConvertedValueLocal = %f V\r\n",ADC_ConvertedValueLocal);
+		 
+		 memset(temp,0,sizeof(temp));
+				 
 	}	
 }
 /*********************************************END OF FILE**********************/
