@@ -82,7 +82,10 @@ int main(void)
 		  printf("temperature = %f ¡æ\r\n",DS18B20_Get_Temp());
 
 		  WifiUsart_SendString(USART3, "it is ok!\n");
-		  BLTUsart_SendString(USART2, "BLT it is ok!\n");
+		  //BLTUsart_SendString(USART2, "BLT it is ok!\n");		 
+		  printf("%s\n", BLTUART_RxBuffer);
+		  WifiUsart_SendString(USART3, (char*)BLTUART_RxBuffer);
+		  //memset(BLTUART_RxBuffer,0,sizeof(BLTUART_RxBuffer));
 					
 		  OpenADC();
 		  for (adctimes = 0;adctimes <500; adctimes++)

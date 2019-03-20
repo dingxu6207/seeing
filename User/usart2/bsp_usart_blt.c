@@ -63,7 +63,7 @@ void BLT_USART_Config(void)
 	    
   /* Configure USART2 Rx (PA.03) as input floating */
   GPIO_InitStructure.GPIO_Pin = BLT_USART_RX_PIN;
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
   GPIO_Init(BLT_USART_RX_PORT, &GPIO_InitStructure);
 	  
 	/* USART2 mode config */

@@ -32,6 +32,7 @@
 #include "bsp_ds18b20.h"
 #include "WifiUsart.h"
 #include "bsp_usart_blt.h"
+#include <string.h>
 
 extern void TimingDelay_Decrement(void);
 
@@ -191,6 +192,7 @@ void DEBUG_USART3_IRQHandler(void)
 		if (data == 35)
 		{
 			WifiUsart_SendString(USART3, (char*)WIFIUART_RxBuffer);
+			//WifiUsart_SendString(USART3, (char*)BLTUART_RxBuffer);
 		}
 		#endif
 	}	 
@@ -208,7 +210,7 @@ void BLT_USART_IRQHandler(void)
 
          data = USART_ReceiveData(BLT_USARTx);
 		
-    	if(WIFIUART_RxPtr < (BLTUART_RX_BUFFER_SIZE - 1))
+    	if(BLTUART_RxPtr < (BLTUART_RX_BUFFER_SIZE - 1))
         {
                 BLTUART_RxBuffer[BLTUART_RxPtr] = data;
                 BLTUART_RxBuffer[BLTUART_RxPtr + 1]=0x00;
@@ -222,9 +224,11 @@ void BLT_USART_IRQHandler(void)
 
         
         #if 1
-		if (data == 35)
+		if (data == 10)
 		{
-			BLTUsart_SendString(USART2, (char*)BLTUART_RxBuffer);
+			//BLTUsart_SendString(USART2, (char*)BLTUART_RxBuffer);
+			//WifiUsart_SendString(USART3, (char*)BLTUART_RxBuffer);
+			//memset(BLTUART_RxBuffer,0,sizeof(BLTUART_RxBuffer));
 		}
 		#endif    
   }	
