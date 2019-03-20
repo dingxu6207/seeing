@@ -33,6 +33,8 @@
 "..\..\output\setio.o"
 "..\..\output\bsp_ds18b20.o"
 "..\..\output\bsp_timbase.o"
+"..\..\output\wifiusart..o"
+"..\..\output\bsp_usart_blt.o"
 --library_type=microlib --strict --scatter "..\..\Output\USART.sct"
 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

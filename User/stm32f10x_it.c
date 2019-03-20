@@ -30,6 +30,8 @@
 #include "bsp_adc.h"
 #include "bsp_TiMbase.h"
 #include "bsp_ds18b20.h"
+#include "WifiUsart.h"
+#include "bsp_usart_blt.h"
 
 extern void TimingDelay_Decrement(void);
 
@@ -158,6 +160,76 @@ void DEBUG_USART_IRQHandler(void)
     USART_SendData(DEBUG_USARTx,ucTemp);    
 	}	 
 }
+
+//485中断
+// 串口中断服务函数
+//bool bRunMotor = false;
+void DEBUG_USART3_IRQHandler(void) 
+{
+  	
+	unsigned char data;
+  	
+	if(USART_GetITStatus(DEBUG_USART3x,USART_IT_RXNE)!=RESET)
+	{		
+    
+			data = USART_ReceiveData(DEBUG_USART3x);
+		
+    	if(WIFIUART_RxPtr < (WIFIUART_RX_BUFFER_SIZE - 1))
+        {
+                WIFIUART_RxBuffer[WIFIUART_RxPtr] = data;
+                WIFIUART_RxBuffer[WIFIUART_RxPtr + 1]=0x00;
+                WIFIUART_RxPtr++;
+        }
+			else
+        {
+                WIFIUART_RxBuffer[WIFIUART_RxPtr - 1] = data;
+                
+        }
+
+        
+        #if 1
+		if (data == 35)
+		{
+			WifiUsart_SendString(USART3, (char*)WIFIUART_RxBuffer);
+		}
+		#endif
+	}	 
+}
+
+
+
+// 串口2中断服务函数
+void BLT_USART_IRQHandler(void)
+{
+
+  unsigned char data;
+  if(USART_GetITStatus(BLT_USARTx, USART_IT_RXNE) != RESET)
+  {
+
+         data = USART_ReceiveData(BLT_USARTx);
+		
+    	if(WIFIUART_RxPtr < (BLTUART_RX_BUFFER_SIZE - 1))
+        {
+                BLTUART_RxBuffer[BLTUART_RxPtr] = data;
+                BLTUART_RxBuffer[BLTUART_RxPtr + 1]=0x00;
+                BLTUART_RxPtr++;
+        }
+			else
+        {
+                BLTUART_RxBuffer[BLTUART_RxPtr - 1] = data;
+                
+        }
+
+        
+        #if 1
+		if (data == 35)
+		{
+			BLTUsart_SendString(USART2, (char*)BLTUART_RxBuffer);
+		}
+		#endif    
+  }	
+}
+
 
 //ADC中断数据转换
 void ADC_IRQHandler(void)

@@ -25,6 +25,8 @@
 #include "bsp_TiMbase.h"
 #include <string.h>
 #include <math.h>
+#include "WifiUsart.h"
+#include "bsp_usart_blt.h"
 
 extern __IO uint16_t ADC_ConvertedValue;
 
@@ -48,7 +50,11 @@ int main(void)
 {	
   	
 	/*初始化USART 配置模式为 115200 8-N-1，中断接收*/
-  USART_Config();
+    USART_Config();
+
+    WifiUSART_Config();
+
+    BLT_USART_Config();
 	
 	SysTick_Init();
 	
@@ -69,31 +75,34 @@ int main(void)
 	/* 发送一个字符串 */
 	printf("微温脉动仪\n\n\n\n");
 	
-  while(1)
+    while(1)
 	{			 
 		  		 		
 		  CloseADC();
-			printf("temperature = %f ℃\r\n",DS18B20_Get_Temp());
+		  printf("temperature = %f ℃\r\n",DS18B20_Get_Temp());
+
+		  WifiUsart_SendString(USART3, "it is ok!\n");
+		  BLTUsart_SendString(USART2, "BLT it is ok!\n");
 					
-			OpenADC();
+		  OpenADC();
 		  for (adctimes = 0;adctimes <500; adctimes++)
-		 {
+		  {
 			  ADC_ConvertedValueLocal =(float) ADC_ConvertedValue/4096*3.3;
-		    temp[adctimes] = ADC_ConvertedValueLocal*ADC_ConvertedValueLocal*ADC_ConvertedValueLocal*ADC_ConvertedValueLocal;
+		      temp[adctimes] = ADC_ConvertedValueLocal*ADC_ConvertedValueLocal*ADC_ConvertedValueLocal*ADC_ConvertedValueLocal;
 				Delay_ms(10);
-		 }
+		  }
 		 
-		 for (adctimes = 0;adctimes <500; adctimes++)
+		 for (adctimes = 0;adctimes < 500; adctimes++)
 		 {
 		    sum = sum + temp[adctimes];
 		 }
 		 
 		  deltADC = sqrt(sum/500);
 		 
-			printf("deltADC = %f V\r\n",deltADC);
+		  printf("deltADC = %f V\r\n",deltADC);
 		  printf("ADC_ConvertedValueLocal = %f V\r\n",ADC_ConvertedValueLocal);
 		 
-		 memset(temp,0,sizeof(temp));
+		  memset(temp,0,sizeof(temp));
 				 
 	}	
 }

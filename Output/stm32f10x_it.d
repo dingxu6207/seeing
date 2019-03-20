@@ -35,3 +35,5 @@
 ..\..\output\stm32f10x_it.o: ..\..\User\ADC\bsp_adc.h
 ..\..\output\stm32f10x_it.o: ..\..\User\TimBase\bsp_TiMbase.h
 ..\..\output\stm32f10x_it.o: ..\..\User\ds18b20\bsp_ds18b20.h
+..\..\output\stm32f10x_it.o: ..\..\User\uart3\WifiUsart.h
+..\..\output\stm32f10x_it.o: ..\..\User\usart2\bsp_usart_blt.h
