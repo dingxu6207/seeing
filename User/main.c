@@ -27,6 +27,7 @@
 #include <math.h>
 #include "WifiUsart.h"
 #include "bsp_usart_blt.h"
+#include <stdio.h>
 
 extern __IO uint16_t ADC_ConvertedValue;
 
@@ -45,7 +46,12 @@ double temp[500] = {0};
 int adctimes = 0;	
 double deltADC = 0;
 double sum = 0;
-
+char *Pressure = NULL;
+char Pre[20] = {0};
+char Hig[20] = {0};
+char cTempterStr[20] = {0};
+char cdeltADCStr[20] = {0};
+char cADC_ConvertedValueLocalstr[50] = {0};
 int main(void)
 {	
   	
@@ -80,13 +86,19 @@ int main(void)
 		  		 		
 		  CloseADC();
 		  printf("temperature = %f ¡æ\r\n",DS18B20_Get_Temp());
-
-		  WifiUsart_SendString(USART3, "it is ok!\n");
-		  //BLTUsart_SendString(USART2, "BLT it is ok!\n");		 
-		  printf("%s\n", BLTUART_RxBuffer);
-		  WifiUsart_SendString(USART3, (char*)BLTUART_RxBuffer);
-		  //memset(BLTUART_RxBuffer,0,sizeof(BLTUART_RxBuffer));
-					
+      sprintf(cTempterStr, "temperature = %f ¡æ\n", DS18B20_Get_Temp());
+		 	WifiUsart_SendString(USART3, (char*)cTempterStr);
+		
+		#if 1
+		 Pressure = strstr((char*)BLTUART_RxBuffer, "Pre"); 
+     strncpy(Pre, Pressure, 19);
+		 strncpy(Hig, Pressure+20, 17);
+		 WifiUsart_SendString(USART3, (char*)Pre); 
+     WifiUsart_SendString(USART3, (char*)Hig);	
+     printf("%s\n", Pre);
+		 printf("%s\n", Hig);
+		#endif
+		
 		  OpenADC();
 		  for (adctimes = 0;adctimes <500; adctimes++)
 		  {
@@ -104,6 +116,15 @@ int main(void)
 		 
 		  printf("deltADC = %f V\r\n",deltADC);
 		  printf("ADC_ConvertedValueLocal = %f V\r\n",ADC_ConvertedValueLocal);
+		 
+		  sprintf(cdeltADCStr, "deltADC = %f \n", deltADC);
+		 	WifiUsart_SendString(USART3, (char*)cdeltADCStr);
+		 
+		  sprintf(cADC_ConvertedValueLocalstr, "ADC_ConvertedValueLocal = %f \n", ADC_ConvertedValueLocal);
+		 	WifiUsart_SendString(USART3, (char*)cADC_ConvertedValueLocalstr);
+		  
+		  WifiUsart_SendString(USART3, "\r\n");
+		  printf("\r\n");
 		 
 		  memset(temp,0,sizeof(temp));
 				 
