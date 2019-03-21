@@ -361,7 +361,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_HD, USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\Libraries\CMSIS;..\..\User;..\..\Libraries\FWlib\inc;..\..\User\usart;..\..\User\SysTick;..\..\User\ADC;..\..\User\LED&amp;SWITCH;..\..\User\ds18b20</IncludePath>
+              <IncludePath>..\..\Libraries\CMSIS;..\..\User;..\..\Libraries\FWlib\inc;..\..\User\usart;..\..\User\SysTick;..\..\User\ADC;..\..\User\LED&amp;SWITCH;..\..\User\ds18b20;..\..\User\TimBase</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -608,6 +608,11 @@
               <FileName>bsp_ds18b20.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\User\ds18b20\bsp_ds18b20.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_TiMbase.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\TimBase\bsp_TiMbase.c</FilePath>
             </File>
           </Files>
         </Group>

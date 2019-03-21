@@ -361,7 +361,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_HD, USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\Libraries\CMSIS;..\..\User;..\..\Libraries\FWlib\inc;..\..\User\usart;..\..\User\SysTick;..\..\User\ADC;..\..\User\LED&amp;SWITCH;..\..\User\ds18b20;..\..\User\TimBase</IncludePath>
+              <IncludePath>..\..\Libraries\CMSIS;..\..\User;..\..\Libraries\FWlib\inc;..\..\User\usart;..\..\User\SysTick;..\..\User\ADC;..\..\User\LED&amp;SWITCH;..\..\User\ds18b20;..\..\User\TimBase;..\..\User\uart3;..\..\User\usart2</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -613,6 +613,16 @@
               <FileName>bsp_TiMbase.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\User\TimBase\bsp_TiMbase.c</FilePath>
+            </File>
+            <File>
+              <FileName>WifiUsart..c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\uart3\WifiUsart..c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_usart_blt.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\usart2\bsp_usart_blt.c</FilePath>
             </File>
           </Files>
         </Group>

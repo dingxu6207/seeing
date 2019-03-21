@@ -94,9 +94,13 @@ int main(void)
      strncpy(Pre, Pressure, 19);
 		 strncpy(Hig, Pressure+20, 17);
 		 WifiUsart_SendString(USART3, (char*)Pre); 
-     WifiUsart_SendString(USART3, (char*)Hig);	
+		 WifiUsart_SendByte(USART3, '\n');
+     WifiUsart_SendString(USART3, (char*)Hig);
+     WifiUsart_SendByte(USART3, '\n');		
      printf("%s\n", Pre);
 		 printf("%s\n", Hig);
+		
+		//memset(BLTUART_RxBuffer,0,sizeof(BLTUART_RxBuffer));
 		#endif
 		
 		  OpenADC();
@@ -123,7 +127,7 @@ int main(void)
 		  sprintf(cADC_ConvertedValueLocalstr, "ADC_ConvertedValueLocal = %f \n", ADC_ConvertedValueLocal);
 		 	WifiUsart_SendString(USART3, (char*)cADC_ConvertedValueLocalstr);
 		  
-		  WifiUsart_SendString(USART3, "\r\n");
+		  //WifiUsart_SendString(USART3, "\r\n");
 		  printf("\r\n");
 		 
 		  memset(temp,0,sizeof(temp));
