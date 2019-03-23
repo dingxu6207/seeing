@@ -125,7 +125,7 @@ int main(void)
 				   Delay_ms(10);
 			  }
 
-			  for (i = 2; i < 10; i++)
+			  for (i = 1; i < 9; i++)
 			  {
 				   fixsum = fixsum + fixtemp[i];				   
 			  }
