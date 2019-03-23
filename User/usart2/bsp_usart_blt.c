@@ -135,4 +135,18 @@ void clean_rebuff(void)
 
 }
 
+void DisableUart2(void)
+{
+	USART_ITConfig(BLT_USARTx, USART_IT_RXNE, DISABLE);
+
+	USART_Cmd(BLT_USARTx, DISABLE);
+	//USART_ClearFlag(BLT_USARTx, USART_FLAG_TC);
+}
+
+void EnableUart2(void)
+{
+	USART_ITConfig(BLT_USARTx, USART_IT_RXNE, ENABLE);
+
+	USART_Cmd(BLT_USARTx, ENABLE);
+}
 /******************* (C) COPYRIGHT 2012 WildFire Team *****END OF FILE************/

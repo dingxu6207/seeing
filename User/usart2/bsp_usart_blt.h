@@ -31,5 +31,6 @@ void BLTUsart_SendByte( USART_TypeDef * pUSARTx, uint8_t ch );
 
 char *get_rebuff(uint16_t *len);
 void clean_rebuff(void);
-
+void DisableUart2(void);
+void EnableUart2(void);
 #endif /* __USART2_H */
