@@ -33,12 +33,8 @@
 extern __IO uint16_t ADC_ConvertedValue;
 
 extern uint32_t time;
-// 局部变量，保存ADC的值
-float ADC_ConvertedValueLocal;
-float fADC_ConvertedValueLocal; 
-double temp[500] = {0};
-double fixtemp[10] = {0};
-double fixsum = 0;
+
+
 /**
   * @brief  主函数
   * @param  无
@@ -47,6 +43,8 @@ double fixsum = 0;
 bool bFixADC = true;
 float FixReadAdc = 0;
 float FixRealAdc = 0;
+double fixtemp[10] = {0};
+double fixsum = 0;
 
 int adctimes = 0;	
 double deltADC = 0;
@@ -57,7 +55,11 @@ char Hig[20] = {0};
 char cTempterStr[20] = {0};
 char cdeltADCStr[20] = {0};
 char cADC_ConvertedValueLocalstr[50] = {0};
-int i = 0;
+float ADC_ConvertedValueLocal;
+float fADC_ConvertedValueLocal; 
+double temp[500] = {0};
+
+int i,j,m = 0;
 int main(void)
 {	
   	
@@ -97,9 +99,9 @@ int main(void)
 		  WifiUsart_SendString(USART3, (char*)cTempterStr);
 		
 		#if 1
-		EnableUart2();
-		clean_rebuff();
-		Delay_ms(1000);
+		//EnableUart2();
+		//clean_rebuff();
+		//Delay_ms(2000);
 		 Pressure = strstr((char*)BLTUART_RxBuffer, "Pre"); 
          strncpy(Pre, Pressure, 19);
 		 strncpy(Hig, Pressure+20, 17);
@@ -114,33 +116,37 @@ int main(void)
 		#endif
 		
 		 OpenADC();
-		 DisableUart2();
+		 //DisableUart2();
 		 GPIO_SetBits(SWITCH_GPIO_PORT, SWITCH_GPIO_PIN);
+		 Delay_ms(1);
+		 
 		 if (bFixADC == true)
 		 {
-			  for (i = 0; i < 10; i++)
+			  for (m = 0; m < 2000; m++)
 			  {
 				   FixReadAdc = (float) ADC_ConvertedValue/4096*3.3;
 				   fixtemp[i] = FixReadAdc;
-				   Delay_ms(10);
+				   Delay_us(10);
 			  }
 
-			  for (i = 1; i < 9; i++)
+			  for (j = 0; j < 2000; j++)
 			  {
 				   fixsum = fixsum + fixtemp[i];				   
 			  }
   
-			  FixRealAdc = fixsum/8;
+			  FixRealAdc = fixsum/2000;
 
 			  bFixADC = false;
 		 }
+		 
 		 printf("FixRealAdc = %f\n", FixRealAdc);
 			
 		 for (adctimes = 0;adctimes < 500; adctimes++)
 		 {
 			  ADC_ConvertedValueLocal =(float) ADC_ConvertedValue/4096*3.3;
 			  fADC_ConvertedValueLocal = fabs(ADC_ConvertedValueLocal - FixRealAdc);
-		      temp[adctimes] = fADC_ConvertedValueLocal*fADC_ConvertedValueLocal*fADC_ConvertedValueLocal*fADC_ConvertedValueLocal;
+		      //temp[adctimes] = fADC_ConvertedValueLocal*fADC_ConvertedValueLocal*fADC_ConvertedValueLocal*fADC_ConvertedValueLocal;
+		      temp[adctimes] = fADC_ConvertedValueLocal;
 			  Delay_ms(10);
 		 }
 		 
@@ -150,6 +156,7 @@ int main(void)
 		 }
 		 
 		  deltADC = sqrt(sum/500);
+		  sum = 0;
 		 
 		  printf("deltADC = %f V\r\n",deltADC);
 		  printf("fADC_ConvertedValueLocal = %f V\r\n",fADC_ConvertedValueLocal);
@@ -169,9 +176,9 @@ int main(void)
 		 //GPIO_SetBits(SWITCH_GPIO_PORT, SWITCH_GPIO_PIN);
 		 CloseADC();	
 		 #if 1
-		 for (i = 0;i < 5000;i++)
+		 for (i = 0;i < 240;i++)
 		 {
-				Delay_ms(10);
+				Delay_ms(1000);
 		 }
 		 	
 		 #endif

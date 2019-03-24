@@ -89,11 +89,11 @@ static void ADC_NVIC_Config(void)
 {
   NVIC_InitTypeDef NVIC_InitStructure;
 	// 优先级分组
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_0);
 
   // 配置中断优先级
   NVIC_InitStructure.NVIC_IRQChannel = ADC_IRQ;
-  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure);
