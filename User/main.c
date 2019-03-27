@@ -52,9 +52,13 @@ double sum = 0;
 char *Pressure = NULL;
 char Pre[20] = {0};
 char Hig[20] = {0};
-char cTempterStr[20] = {0};
-char cdeltADCStr[20] = {0};
+char cTempterStr[50] = {0};
+char cdeltADCStr[50] = {0};
 char cADC_ConvertedValueLocalstr[50] = {0};
+
+char c4deltStr[50] = {0};
+char cLastTemp[50] = {0};
+
 float ADC_ConvertedValueLocal;
 float fADC_ConvertedValueLocal; 
 double temp[500] = {0};
@@ -164,14 +168,22 @@ int main(void)
 		  memset(temp,0,sizeof(temp));
 		 
 		  printf("deltADC = %f V\r\n",deltADC);
+		  printf("4delttemp = %f V\r\n",deltADC*2945.0896);
 		  printf("fADC_ConvertedValueLocal = %f V\r\n",fADC_ConvertedValueLocal);
+		  printf("deltLastTemp = %f ¡æ\r\n",fADC_ConvertedValueLocal*54.2687);
 		 
 		  sprintf(cdeltADCStr, "deltADC = %f \n", deltADC);
 		 	WifiUsart_SendString(USART3, (char*)cdeltADCStr);
 		 
 		  sprintf(cADC_ConvertedValueLocalstr, "fADC_ConvertedValueLocal = %f \n", fADC_ConvertedValueLocal);
 		 	WifiUsart_SendString(USART3, (char*)cADC_ConvertedValueLocalstr);
+		 
+		 //c4deltStr cLastTemp
+		  sprintf(c4deltStr, "4delttemp = %f \n", deltADC*2945.0896);
+		 	WifiUsart_SendString(USART3, (char*)c4deltStr);
 		  
+			sprintf(cLastTemp, "cLastTemp = %f  ¡æ\n", fADC_ConvertedValueLocal*54.2687);
+		 	WifiUsart_SendString(USART3, (char*)cLastTemp);
 		  //WifiUsart_SendString(USART3, "\r\n");
 		  printf("\r\n");
 		 

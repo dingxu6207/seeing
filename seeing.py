@@ -38,10 +38,9 @@ if __name__ == '__main__':
         f.write(dt)
         f.write('\n')  
         i = 0
-        print(type(dt))
+       
         
-      t = (dt.find(' 22:25'))   
-      print(t)
+      t = (dt.find(' 8:2'))   
       if (t > 0):
           f.close()
           serial.close()
