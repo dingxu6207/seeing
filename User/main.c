@@ -137,26 +137,31 @@ int main(void)
 			  FixRealAdc = fixsum/2000;
 
 			  bFixADC = false;
+
+			  fixsum = 0;
 		 }
-		 
+		 FixRealAdc = 0.0377;  //A°å²ÎÊý
+		 //FixRealAdc = 0.0056;
 		 printf("FixRealAdc = %f\n", FixRealAdc);
 			
-		 for (adctimes = 0;adctimes < 500; adctimes++)
+		 for (adctimes = 0;adctimes < 400; adctimes++)
 		 {
 			  ADC_ConvertedValueLocal =(float) ADC_ConvertedValue/4096*3.3;
 			  fADC_ConvertedValueLocal = fabs(ADC_ConvertedValueLocal - FixRealAdc);
-		      //temp[adctimes] = fADC_ConvertedValueLocal*fADC_ConvertedValueLocal*fADC_ConvertedValueLocal*fADC_ConvertedValueLocal;
-		      temp[adctimes] = fADC_ConvertedValueLocal;
-			  Delay_ms(10);
+		    temp[adctimes] = fADC_ConvertedValueLocal*fADC_ConvertedValueLocal*fADC_ConvertedValueLocal*fADC_ConvertedValueLocal;
+		    //temp[adctimes] = fADC_ConvertedValueLocal;
+			  Delay_ms(5);
 		 }
 		 
-		 for (adctimes = 0;adctimes < 500; adctimes++)
+		 for (adctimes = 0;adctimes < 400; adctimes++)
 		 {
 		    sum = sum + temp[adctimes];
 		 }
 		 
-		  deltADC = sqrt(sum/500);
+		  deltADC = sqrt(sum/400);
+		  //deltADC = (sum/400);
 		  sum = 0;
+		  memset(temp,0,sizeof(temp));
 		 
 		  printf("deltADC = %f V\r\n",deltADC);
 		  printf("fADC_ConvertedValueLocal = %f V\r\n",fADC_ConvertedValueLocal);
@@ -170,13 +175,13 @@ int main(void)
 		  //WifiUsart_SendString(USART3, "\r\n");
 		  printf("\r\n");
 		 
-		  memset(temp,0,sizeof(temp));
+		  
 		 
 		 GPIO_ResetBits(SWITCH_GPIO_PORT, SWITCH_GPIO_PIN);
 		 //GPIO_SetBits(SWITCH_GPIO_PORT, SWITCH_GPIO_PIN);
 		 CloseADC();	
 		 #if 1
-		 for (i = 0;i < 240;i++)
+		 for (i = 0;i < 55;i++)
 		 {
 				Delay_ms(1000);
 		 }

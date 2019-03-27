@@ -1,0 +1,13 @@
+---- BLTUART_RxBuffer Matches (13 in 4 files) ----
+bsp_usart_blt.c (User\usart2):unsigned char BLTUART_RxBuffer[BLTUART_RX_BUFFER_SIZE] = {0};
+bsp_usart_blt.c (User\usart2):    return (char *)&BLTUART_RxBuffer;
+bsp_usart_blt.c (User\usart2):		BLTUART_RxBuffer[--i]=0;
+bsp_usart_blt.h (User\usart2):extern unsigned char BLTUART_RxBuffer[BLTUART_RX_BUFFER_SIZE];
+main.c (User):		 Pressure = strstr((char*)BLTUART_RxBuffer, "Pre"); 
+stm32f10x_it.c (User):			//WifiUsart_SendString(USART3, (char*)BLTUART_RxBuffer);
+stm32f10x_it.c (User):                BLTUART_RxBuffer[BLTUART_RxPtr] = data;
+stm32f10x_it.c (User):                BLTUART_RxBuffer[BLTUART_RxPtr + 1]=0x00;
+stm32f10x_it.c (User):                BLTUART_RxBuffer[BLTUART_RxPtr - 1] = data;
+stm32f10x_it.c (User):			//BLTUsart_SendString(USART2, (char*)BLTUART_RxBuffer);
+stm32f10x_it.c (User):			//WifiUsart_SendString(USART3, (char*)BLTUART_RxBuffer);
+stm32f10x_it.c (User):			//memset(BLTUART_RxBuffer,0,sizeof(BLTUART_RxBuffer));
