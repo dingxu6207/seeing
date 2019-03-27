@@ -8,22 +8,25 @@ Created on Wed Mar 27 15:45:50 2019
 
 import os
 
-SaveData = open('E:/stm32_text/seeing/save.txt','w')
 
+startkey = 'deltADC ='
+endkey = 'f'
+
+SaveData = open('E:/stm32_text/seeing/save.txt','w')
 
 with open((os.path.join('E:/stm32_text/seeing/testb.txt')), 'r') as f:
 	data = f.read()
     
-strlist = data.split('deltADC =')
+strlist = data.split(startkey)
 
 print(strlist[1])
 
 
 for item in strlist[1:]:
 	try:
-         list_link = item.split('f')[0]   
-         SaveData.write(list_link)        
-         print (list_link) 
+         list_link = item.split(endkey)[0]   
+         SaveData.write(startkey+list_link)        
+         print (startkey,list_link) 
            
 	except:
                    pass 
