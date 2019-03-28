@@ -126,25 +126,26 @@ int main(void)
 		 
 		 if (bFixADC == true)
 		 {
-			  for (m = 0; m < 2000; m++)
+			  Delay_ms(100);
+			  for (m = 0; m < 500000; m++)
 			  {
 				   FixReadAdc = (float) ADC_ConvertedValue/4096*3.3;
 				   fixtemp[i] = FixReadAdc;
 				   Delay_us(10);
 			  }
 
-			  for (j = 0; j < 2000; j++)
+			  for (j = 0; j < 500000; j++)
 			  {
 				   fixsum = fixsum + fixtemp[i];				   
 			  }
   
-			  FixRealAdc = fixsum/2000;
+			  FixRealAdc = fixsum/500000;
 
 			  bFixADC = false;
 
 			  fixsum = 0;
 		 }
-		 FixRealAdc = 0.0377;  //A板参数
+		 //FixRealAdc = 0.0756;  //A板参数
 		 //FixRealAdc = 0.0056;
 		 printf("FixRealAdc = %f\n", FixRealAdc);
 			
@@ -183,6 +184,7 @@ int main(void)
 		 	WifiUsart_SendString(USART3, (char*)c4deltStr);
 		  
 			sprintf(cLastTemp, "cLastTemp = %f  ℃\n", fADC_ConvertedValueLocal*54.2687);
+			//sprintf(cLastTemp, "cLastTemp = %f  ℃\n", deltADC*54.2687);
 		 	WifiUsart_SendString(USART3, (char*)cLastTemp);
 		  //WifiUsart_SendString(USART3, "\r\n");
 		  printf("\r\n");
@@ -190,10 +192,10 @@ int main(void)
 		  
 		 
 		 GPIO_ResetBits(SWITCH_GPIO_PORT, SWITCH_GPIO_PIN);
-		 //GPIO_SetBits(SWITCH_GPIO_PORT, SWITCH_GPIO_PIN);
+		//GPIO_SetBits(SWITCH_GPIO_PORT, SWITCH_GPIO_PIN);
 		 CloseADC();	
 		 #if 1
-		 for (i = 0;i < 55;i++)
+		 for (i = 0;i < 180;i++)
 		 {
 				Delay_ms(1000);
 		 }
