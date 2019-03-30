@@ -153,8 +153,9 @@ int main(void)
 		 {
 			  ADC_ConvertedValueLocal =(float) ADC_ConvertedValue/4096*3.3;
 			  fADC_ConvertedValueLocal = fabs(ADC_ConvertedValueLocal - FixRealAdc);
-		    temp[adctimes] = fADC_ConvertedValueLocal*fADC_ConvertedValueLocal*fADC_ConvertedValueLocal*fADC_ConvertedValueLocal;
+		   // temp[adctimes] = fADC_ConvertedValueLocal*fADC_ConvertedValueLocal*fADC_ConvertedValueLocal*fADC_ConvertedValueLocal;
 		    //temp[adctimes] = fADC_ConvertedValueLocal;
+			  temp[adctimes] = pow(fADC_ConvertedValueLocal,4);
 			  Delay_ms(5);
 		 }
 		 
