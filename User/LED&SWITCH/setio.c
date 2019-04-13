@@ -49,7 +49,7 @@ void SETIO_GPIO_Config(void)
 				
 
 		/* 关闭所有SWITCH灯	*/
-		GPIO_SetBits(SWITCH_GPIO_PORT, SWITCH_GPIO_PIN);
+		GPIO_ResetBits(SWITCH_GPIO_PORT, SWITCH_GPIO_PIN);
 		
 		/* 关闭所有led灯	*/
 		GPIO_SetBits(LED_GPIO_PORT, LED_GPIO_PIN);	 //GPIO_ResetBits

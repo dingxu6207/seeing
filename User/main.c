@@ -40,7 +40,7 @@ extern uint32_t time;
   * @param  无
   * @retval 无
   */
-bool bFixADC = true;
+bool bFixADC = false;
 float FixReadAdc = 0;
 float FixRealAdc = 0;
 double fixtemp[10] = {0};
@@ -64,6 +64,8 @@ float fADC_ConvertedValueLocal;
 double temp[500] = {0};
 
 int i,j,m = 0;
+int times = 0;
+
 int main(void)
 {	
   	
@@ -145,7 +147,7 @@ int main(void)
 
 			  fixsum = 0;
 		 }
-		 //FixRealAdc = 0.0756;  //A板参数
+		 FixRealAdc = 0.097485;  //A板参数
 		 //FixRealAdc = 0.0056;
 		 printf("FixRealAdc = %f\n", FixRealAdc);
 			
@@ -170,9 +172,10 @@ int main(void)
 		  memset(temp,0,sizeof(temp));
 		 
 		  printf("deltADC = %f V\r\n",deltADC);
-		  printf("4delttemp = %f V\r\n",deltADC*2945.0896);
+		  //printf("4delttemp = %f V\r\n",deltADC*2945.0896);
+		 printf("4delttemp = %f V\r\n",deltADC*31.40);
 		  printf("fADC_ConvertedValueLocal = %f V\r\n",fADC_ConvertedValueLocal);
-		  printf("deltLastTemp = %f ℃\r\n",fADC_ConvertedValueLocal*54.2687);
+		  printf("deltLastTemp = %f ℃\r\n",fADC_ConvertedValueLocal*5.60);
 		 
 		  sprintf(cdeltADCStr, "deltADC = %f \n", deltADC);
 		 	WifiUsart_SendString(USART3, (char*)cdeltADCStr);
@@ -181,7 +184,8 @@ int main(void)
 		 	WifiUsart_SendString(USART3, (char*)cADC_ConvertedValueLocalstr);
 		 
 		 //c4deltStr cLastTemp
-		  sprintf(c4deltStr, "4delttemp = %f \n", deltADC*2945.0896);
+		  //sprintf(c4deltStr, "4delttemp = %f \n", deltADC*2945.0896);
+		 sprintf(c4deltStr, "4delttemp = %f \n", deltADC*31.40);
 		 	WifiUsart_SendString(USART3, (char*)c4deltStr);
 		  
 			sprintf(cLastTemp, "cLastTemp = %f  ℃\n", fADC_ConvertedValueLocal*54.2687);
@@ -193,14 +197,26 @@ int main(void)
 		  
 		 
 		 GPIO_ResetBits(SWITCH_GPIO_PORT, SWITCH_GPIO_PIN);
-		//GPIO_SetBits(SWITCH_GPIO_PORT, SWITCH_GPIO_PIN);
+		 //GPIO_SetBits(SWITCH_GPIO_PORT, SWITCH_GPIO_PIN);
 		 CloseADC();	
-		 #if 1
-		 for (i = 0;i < 180;i++)
+		 
+		 for (i = 0;i < 5;i++)
 		 {
 				Delay_ms(1000);
 		 }
-		 	
+
+		 #if 0
+		 if (times >= 50)
+		 {
+		      times = 50;
+			    //bFixADC = true;
+		 }
+		 else
+		 {
+		      times++;
+			    if (times == 49)
+						bFixADC = true;
+		 }
 		 #endif
 	}	
 }
